@@ -11,33 +11,47 @@ public class CrowdManager : MonoBehaviour {
     public static Action<CrowdManager> OnGameStart;
     void Start() {
         if (humanPrefab == null) Debug.LogError("Human prefab not assigned");
-        // Создаем стартового человека-ледера как часть толпы
         AddHumans(GameManager.Instance.humansCount - humans.Count);
         OnGameStart?.Invoke(this);
     }
 
     public void AddHumans(int delta) {
-        if (delta > 0) {
-            for (int i = 0; i < delta; i++) {
-                Vector3 pos = (spawnRoot != null ? spawnRoot.position : transform.position) + offsetStep * humans.Count;
-                GameObject h = Instantiate(humanPrefab, pos, Quaternion.identity, transform);
-                h.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-                humans.Add(h);
+    if (delta > 0) {
+        for (int i = 0; i < delta; i++) {
+
+            int index = humans.Count;
+            int row = index / _numberOfColumns;
+            int col = index % _numberOfColumns;
+
+            Vector3 basePos;
+
+            if (index == 0) {
+                
+                basePos = transform.position;
+            } else {
+                basePos = humans[0].transform.position;
             }
-        } else if (delta < 0) {
-            int remove = Mathf.Min(humans.Count, Mathf.Abs(delta));
-            for (int i = 0; i < remove; i++) {
-                GameObject last = humans[humans.Count - 1];
-                Destroy(last);
-                humans.RemoveAt(humans.Count - 1);
-            }
+
+            Vector3 worldPos = basePos + new Vector3(col * offset, 0, -row * offset);
+
+            GameObject h = Instantiate(humanPrefab, worldPos, Quaternion.identity, transform);
+            h.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+
+            humans.Add(h);
         }
-        GameManager.Instance.AddHumans(delta);
+    } else if (delta < 0) {
+        int remove = Mathf.Min(humans.Count, Mathf.Abs(delta));
+        for (int i = 0; i < remove; i++) {
+            GameObject last = humans[humans.Count - 1];
+            Destroy(last);
+            humans.RemoveAt(humans.Count - 1);
+        }
     }
 
-    public int Count() {
-        return humans.Count;
-    }
+    GameManager.Instance.AddHumans(delta);
 }
 
 
+
+
+}

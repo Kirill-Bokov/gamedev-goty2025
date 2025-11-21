@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 public class Gate : MonoBehaviour {
-    public int value = 2; // ставь +2 или -2 в инспекторе
+    public int value = 2; 
     private CrowdManager _crowdManager;
 
     private void OnEnable()
