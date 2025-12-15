@@ -11,16 +11,16 @@ public class GameManager : MonoBehaviour {
         else Destroy(gameObject);
     }
 
-    public void AddHumans(int n) {
-        humansCount += n;
-        if (humansCount <= 0) Lose();
-    }
+    public void SetHumansCount(int count)
+{
+    humansCount = count;
+    if (humansCount <= 0) Lose();
+}
 
     public void Lose() {
         if (isGameOver) return;
         isGameOver = true;
         Debug.Log("Поражение");
-        // Перезапуск сцены через 2 секунды
         Invoke(nameof(Restart), 2f);
     }
 
@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour {
         Debug.Log("Победа");
         Invoke(nameof(Restart), 2f);
     }
-
     void Restart() {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }

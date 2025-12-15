@@ -15,23 +15,17 @@ public class CrowdManager : MonoBehaviour {
         OnGameStart?.Invoke(this);
     }
 
-    public void AddHumans(int delta) {
-    if (delta > 0) {
-        for (int i = 0; i < delta; i++) {
-
+    public void AddHumans(int delta)
+{
+    if (delta > 0)
+    {
+        for (int i = 0; i < delta; i++)
+        {
             int index = humans.Count;
             int row = index / _numberOfColumns;
             int col = index % _numberOfColumns;
 
-            Vector3 basePos;
-
-            if (index == 0) {
-                
-                basePos = transform.position;
-            } else {
-                basePos = humans[0].transform.position;
-            }
-
+            Vector3 basePos = humans.Count == 0 ? transform.position : humans[0].transform.position;
             Vector3 worldPos = basePos + new Vector3(col * offset, 0, -row * offset);
 
             GameObject h = Instantiate(humanPrefab, worldPos, Quaternion.identity, transform);
@@ -39,17 +33,22 @@ public class CrowdManager : MonoBehaviour {
 
             humans.Add(h);
         }
-    } else if (delta < 0) {
+    }
+    else if (delta < 0)
+    {
         int remove = Mathf.Min(humans.Count, Mathf.Abs(delta));
-        for (int i = 0; i < remove; i++) {
+        for (int i = 0; i < remove; i++)
+        {
             GameObject last = humans[humans.Count - 1];
             Destroy(last);
             humans.RemoveAt(humans.Count - 1);
         }
     }
 
-    GameManager.Instance.AddHumans(delta);
+    // Обновляем глобальное количество
+    GameManager.Instance.SetHumansCount(humans.Count);
 }
+
 
 
 
