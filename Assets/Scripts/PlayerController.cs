@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour {
 
         transform.Translate(Vector3.left * forwardSpeed * Time.deltaTime);
 
-        float inputX = Input.GetAxis("Horizontal");  // A/D или стрелки
+        float inputX = Input.GetAxis("Horizontal");
 
         Vector3 move = Vector3.forward * inputX * sideSpeed * Time.deltaTime;
         transform.Translate(move);

@@ -305,8 +305,13 @@ MonoBehaviour:
   - -1
   - +2
   - -2
+  - '*2'
+  - /2
+  - '*2'
+  - /3
   textDisplay: {fileID: 4241128447468296746}
   parentGate: {fileID: 0}
+  mustBePositive: 0
 --- !u!54 &6250129041716608418
 Rigidbody:
   m_ObjectHideFlags: 0

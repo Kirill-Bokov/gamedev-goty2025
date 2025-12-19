@@ -5,7 +5,7 @@ public class Gate : MonoBehaviour
     public GatePart leftPart;
     public GatePart rightPart;
     private CrowdManager _crowdManager;
-    private bool _applied = false; // флаг, чтобы значение применялось только один раз
+    private bool _applied = false;
 
     private void OnEnable()
     {
@@ -22,7 +22,6 @@ public class Gate : MonoBehaviour
         leftPart.parentGate = this;
         rightPart.parentGate = this;
 
-        // Случайно выбираем, какая часть будет гарантированно положительной
         if (Random.value < 0.5f)
         {
             leftPart.mustBePositive = true;
@@ -34,7 +33,6 @@ public class Gate : MonoBehaviour
             rightPart.mustBePositive = true;
         }
 
-        // Генерируем значения для обеих частей
         leftPart.RandomizeGate(leftPart.mustBePositive);
         rightPart.RandomizeGate(rightPart.mustBePositive);
     }
@@ -46,13 +44,11 @@ public class Gate : MonoBehaviour
 
     public void ApplyGatePart(GatePart part)
     {
-        if (_applied) return; // если уже применялось, выходим
+        if (_applied) return; 
 
-        _applied = true; // ставим флаг
+        _applied = true; 
         if (_crowdManager != null)
             _crowdManager.AddHumans(part.value);
-
-        // Деактивируем весь объект
         gameObject.SetActive(false);
     }
 }
